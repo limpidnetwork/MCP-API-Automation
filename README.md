@@ -13,3 +13,5 @@ limpid-data-pipeline bash
 ### MySQL
 
 `docker exec -it mcp-pipelines_db_1 /bin/bash`
+
+### Data Processing
