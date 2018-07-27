@@ -1,0 +1,41 @@
+[{
+	"id": "-4526177892879585115",
+	"type": "ActiveAlarm",
+	"attributes": {
+		"id": "-4526177892879585115",
+		"node-id": "b956ff37-206e-4858-84b6-60eb02710de5",
+		"node-type": "5150",
+		"resource": "SLOT_1",
+		"native-condition-type": "Blade POST Failure",
+		"condition-severity": "MAJOR",
+		"manual-clearable": "False",
+		"additional-text": "Blade POST Failure",
+		"first-raise-time": 1532658715000,
+		"last-raise-time": 1532658715000,
+		"number-of-occurrences": 1,
+		"acknowledge-state": "NOT_ACKNOWLEDGED",
+		"device-name": "5150-SiteD",
+		"ip-address": "10.176.64.175",
+		"mac-address": "00:03:18:BB:D8:00"
+	}
+}, {
+	"id": "5082284098915426716",
+	"type": "ActiveAlarm",
+	"attributes": {
+		"id": "5082284098915426716",
+		"node-id": "b956ff37-206e-4858-84b6-60eb02710de5",
+		"node-type": "5150",
+		"resource": "4",
+		"native-condition-type": "Link Down",
+		"condition-severity": "WARNING",
+		"manual-clearable": "False",
+		"additional-text": "Link Down",
+		"first-raise-time": 1532658729000,
+		"last-raise-time": 1532658729000,
+		"number-of-occurrences": 1,
+		"acknowledge-state": "NOT_ACKNOWLEDGED",
+		"device-name": "5150-SiteD",
+		"ip-address": "10.176.64.175",
+		"mac-address": "00:03:18:BB:D8:00"
+	}
+}]
