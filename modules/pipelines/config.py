@@ -4,7 +4,8 @@
 # Path Map
 
 PATH_MAP = {
-	'active_alarms' : '/nsa/api/v1/alarms/filter/activeAlarms'
+	'active_alarms' : '/nsa/api/v1/alarms/filter/activeAlarms',
+	'device_types' : '/nsa/api/v1/alarms/device-types'
 }
 
 
@@ -28,6 +29,12 @@ COLUMN_MAP = {
 	 	'attributes_device_name' : ['attributes', 'device-name'],
 	 	'attributes_ip_address' : ['attributes', 'ip-address'],
 	 	'attributes_mac_address' : ['attributes', 'mac-address'],
+	},
+	'device_types' : {
+		'id' : ['id'],
+		'type' : ['type'],
+		'attributes_id' : ['attributes', 'id'],
+		'attributes_value' : ['attributes', 'value']
 	}
 }
 
