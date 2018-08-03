@@ -22,7 +22,14 @@ def get_environment_data(key, user_arg, default=None):
 
 def get_path(data_type):
 	try:
-		return PATH_MAP[data_type]
+		return PATH_MAP[data_type][0]
+	except KeyError:
+		print('data_type=%s is not supported. Supported types are=%s'%(data_type, str(list(PATH_MAP.keys()))))
+		raise
+
+def get_data_key(data_type):
+	try:
+		return PATH_MAP[data_type][1]
 	except KeyError:
 		print('data_type=%s is not supported. Supported types are=%s'%(data_type, str(list(PATH_MAP.keys()))))
 		raise
@@ -95,7 +102,8 @@ def main():
 	token = authorize_with_MCP(host, username, password)
 
 	# 2. Get Data:
-	data = get_data(host, get_path(args.data_type), token)
+	data = get_data(host, get_path(args.data_type), token,
+		key=get_data_key(args.data_type))
 
 	if args.dest_db_type.lower() == 'mysql':
 		import mysqlhelper
@@ -135,7 +143,8 @@ def main():
 		postgreshelper.load_data_in_db(args.data_type, data_file, postgres_host,
 			postgres_username, postgres_password, postgres_db, postgres_port)
 	else:
-		raise Exception("Unsupported database type")
+		print("%s is not supported currently. Supported databases are MySQL and Postgres" % args.dest_db_type)
+		raise
 
 
 if __name__ == '__main__':
