@@ -1,10 +1,22 @@
 version: '3.3'
 services:
+  mcp_db_pg:
+    image: postgres:10.4
+    hostname: mcp_db_pg
+    ports:
+     - 54321:5432
+    restart: always
+    environment:
+      - PGDATA=/var/lib/postgresql/data
+      - POSTGRES_DB=mcp
+      - POSTGRES_USER=limpid
+      - POSTGRES_PASSWORD=limpid@123
+      - POSTGRES_PORT=5432
   mcp_db:
     image: mysql:5.6
     hostname: mcp_db
     ports:
-     - 3306:32769
+     - 33061:3306
     volumes:
      - ./data/mcp_db:/var/lib/mysql
     restart: always
@@ -14,22 +26,30 @@ services:
       - MYSQL_DATABASE=mcp
       - MYSQL_USER=limpid
       - MYSQL_PASSWORD=limpid@123
+      - MYSQL_PORT=3306
   processor:
     build: .
     environment:
       - ENV=DEV
       - USERNAME=dev
-      - PASSWORD=
+      - PASSWORD=cec811295
       - LABID=254
       - MYSQL_HOST=mcp_db
       - MYSQL_ROOT_PASSWORD=limpid@123
       - MYSQL_DATABASE=mcp
       - MYSQL_USERNAME=limpid
-      - MYSQL_PASSWORD=limpid@123      
+      - MYSQL_PASSWORD=limpid@123
+      - MYSQL_PORT=3306
+      - POSTGRES_DB=mcp
+      - POSTGRES_USER=limpid
+      - POSTGRES_PASSWORD=limpid@123
+      - POSTGRES_PORT=5432
     links:
      - mcp_db
+     - mcp_db_pg
     depends_on:
      - mcp_db
+     - mcp_db_pg
     ports:
      - 8080:8080
     tty: true
