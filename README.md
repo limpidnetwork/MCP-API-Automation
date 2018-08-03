@@ -1,17 +1,9 @@
 ## How to start stand-alone container to authenticate and download data from BP MCP 18x
 
 ```
-docker build -t limpid-data-pipeline . && \
-docker run -it --rm -e DEBUG=TRUE -e ENV=STG -e USERNAME=dev -e PASSWORD=XXXXX -e LABID=XXX -p8081:80 \
-limpid-data-pipeline bash
+docker-compose build
+docker-compose up -d
 ```
 
-### Note: In order to get the password a lab needs to be scheduled in `my.ciena.com/CienaPortal`
-
-## How to bash in a container
-
-### MySQL
-
-`docker exec -it mcp-pipelines_db_1 /bin/bash`
-
-### Data Processing
+### Note: Lab credentials can be specified in `docker-compose.yml`, docker makes it available as an environment variables.
+### A lab needs to be scheduled in `my.ciena.com/CienaPortal` to get an active credentials.

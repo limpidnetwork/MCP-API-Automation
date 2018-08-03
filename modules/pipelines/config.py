@@ -1,3 +1,17 @@
+import os
+
+# MYSQL
+MYSQL_HOST = os.environ.get('MYSQL_HOST', "mcp_db")
+MYSQL_USERNAME = os.environ.get('MYSQL_USERNAME', "root")
+MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD', "limpid@123")
+MYSQL_DB = "mcp"
+
+# Postgres
+POSTGRES_HOST = os.environ.get('POSTGRES_HOST', "mcp_db_pg")
+POSTGRES_USERNAME = os.environ.get('POSTGRES_USERNAME', "limpid")
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', "limpid@123")
+POSTGRES_DB = "mcp"
+
 
 # Blue Planet Configuration
 
@@ -5,7 +19,9 @@
 
 PATH_MAP = {
 	'active_alarms' : '/nsa/api/v1/alarms/filter/activeAlarms',
-	'device_types' : '/nsa/api/v1/alarms/device-types'
+	'device_types' : '/nsa/api/v1/alarms/device-types',
+	'equipment' : '/nsi/api/equipment',
+	'HeatDissipationReport' : '/equipmenttopologyplanning/api/v1/HeatDissipationReport'
 }
 
 
@@ -35,6 +51,13 @@ COLUMN_MAP = {
 		'type' : ['type'],
 		'attributes_id' : ['attributes', 'id'],
 		'attributes_value' : ['attributes', 'value']
+	},
+	'equipment' : {
+		'id' : ['id'],
+		'type' : ['type'],
+		'attributes_category' : ['attributes', 'category'],
+		'attributes_nativeName' : ['attributes', 'nativeName'],
+		'attributes_provisionedSpec_hardwareVersion' : ['attributes', 'provisionedSpec', 'hardwareVersion'],
+		'attributes_locations_managementType' : ['attributes', 'locations', 'managementType']
 	}
 }
-
