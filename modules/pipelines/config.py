@@ -18,10 +18,21 @@ POSTGRES_DB = "mcp"
 # Path Map
 
 PATH_MAP = {
-	'active_alarms' : '/nsa/api/v1/alarms/filter/activeAlarms',
-	'device_types' : '/nsa/api/v1/alarms/device-types',
-	'equipment' : '/nsi/api/equipment',
-	'HeatDissipationReport' : '/equipmenttopologyplanning/api/v1/HeatDissipationReport'
+	'active_alarms' : ('/nsa/api/v1/alarms/filter/activeAlarms', 'data'),
+	'device_types' : ('/nsa/api/v1/alarms/device-types', 'data'),
+	'networkConstructs' : ('/nsi/api/networkConstructs', 'data'),
+	'tpes' : ('/nsi/api/tpes', 'data'),
+	'fres' : ('/nsi/api/fres', 'data'),
+	'equipment' : ('/nsi/api/equipment', 'data'),
+	'managementSessions' : ('/discovery/api/managementSessions', 'data'),
+	'HeatDissipationReport' : ('/equipmenttopologyplanning/api/v1/HeatDissipationReport', 'sites'),
+	'policyTypes' : ('/commissioning/api/v1/policyTypes/', 'data'),
+	'policy' : ('/commissioning/api/v1/policy/', 'data'),
+	'policyDefaults' : ('/commissioning/api/v1/policyDefaults/', 'data'),
+	# These three seems to be a POST request, we might need to provide additional params
+	'services' : ('/commissiong/api/v1/services', 'data'),
+	'ipsubnet' : ('/commissioning/api/v1/ipsubnet/', 'shelfIP'),
+	'scripts' :  ('/commissioning/api/v1/scripts/', 'data')
 }
 
 
