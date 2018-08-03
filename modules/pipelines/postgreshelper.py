@@ -50,7 +50,7 @@ def load_data_in_db(data_type, data_file, host, username, password, db, port=330
 		with open(data_file) as f:
 			for json_line in f.readlines()[ignore_top_lines:]:
 				try:
-					insert_stmt = "INSERT INTO %s (info) values ('%s')"%(data_type, json_line)
+					insert_stmt = "INSERT INTO %s (info) values ('%s')"%(data_type, json_line.replace("'", ''))
 					cursor.execute(insert_stmt)
 				except ValueError as e:
 					print("ValueError while processing %s"%json_line)
