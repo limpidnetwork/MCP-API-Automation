@@ -3,6 +3,7 @@ from downloader import get_data
 from authenticate import authorize_with_MCP
 
 import argparse
+import json
 import os
 
 USERNAME = os.environ.get('USERNAME', 'dev')
@@ -20,9 +21,10 @@ def get_environment_data(key, user_arg, default=None):
 		return user_arg
 	return os.environ.get(key, default)
 
-def get_path(data_type):
+def get_path(data_type, params={}):
 	try:
-		return PATH_MAP[data_type][0]
+		print( PATH_MAP[data_type][0].format(**params))
+		return PATH_MAP[data_type][0].format(**params)
 	except KeyError:
 		print('data_type=%s is not supported. Supported types are=%s'%(data_type, str(list(PATH_MAP.keys()))))
 		raise
@@ -33,6 +35,10 @@ def get_data_key(data_type):
 	except KeyError:
 		print('data_type=%s is not supported. Supported types are=%s'%(data_type, str(list(PATH_MAP.keys()))))
 		raise
+
+def valid_dict(params):
+	return json.loads(params)
+
 
 def main():
 	parser = argparse.ArgumentParser(description='Ingest Blue Planet data using REST API.\
@@ -50,7 +56,8 @@ def main():
 
 	parser.add_argument('--data-type', '-dt',
                     help='Type of data (alarms, user, device, connections) to pull from MCP',
-                    required=True)
+                    required=True,
+                    choices=PATH_MAP.keys())
 
 	parser.add_argument('--recreate-table', '-r',
                     help='To recreate table in database.',
@@ -87,13 +94,20 @@ def main():
                     help='Postgres Port',
                     default=3306)
 
+
+	parser.add_argument('--params',
+                    default='{}',
+                    type=valid_dict,
+                    help='URL parameters for MCP APIs.\
+						Accepts valid dictionary as a string.\
+						e.g. \'{"params":"1", "type":"mcp"}\'')
+
 	args = parser.parse_args()
 
 	host = get_environment_data("HOST", args.lab_host, DEFAULT_HOST)
 	username = get_environment_data("USERNAME", args.lab_username, default="dev")
 	password = get_environment_data("PASSWORD", args.lab_password)
 	lab_id = get_environment_data("LABID", args.lab_id, default=254)
-
 
 	host = "%s/%s"%(host, lab_id)
 
@@ -102,7 +116,7 @@ def main():
 	token = authorize_with_MCP(host, username, password)
 
 	# 2. Get Data:
-	data = get_data(host, get_path(args.data_type), token,
+	data = get_data(host, get_path(args.data_type, params=args.params), token,
 		key=get_data_key(args.data_type))
 
 	if args.dest_db_type.lower() == 'mysql':

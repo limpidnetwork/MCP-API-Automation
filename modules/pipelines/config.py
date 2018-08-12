@@ -19,6 +19,7 @@ POSTGRES_DB = "mcp"
 PATH_MAP = {
 	'active_alarms' : ('/nsa/api/v1/alarms/filter/activeAlarms', 'data'),
 	'device_types' : ('/nsa/api/v1/alarms/device-types', 'data'),
+	'deviceAttributes' : ('/nsa/api/v1/alarms/deviceAttributes/{params}', 'data'),
 	'networkConstructs' : ('/nsi/api/networkConstructs', 'data'),
 	'tpes' : ('/nsi/api/tpes', 'data'),
 	'fres' : ('/nsi/api/fres', 'data'),
