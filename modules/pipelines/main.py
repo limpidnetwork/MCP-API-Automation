@@ -6,8 +6,8 @@ import argparse
 import json
 import os
 
-USERNAME = os.environ.get('USERNAME', 'dev')
-PASSWORD = os.environ.get('PASSWORD', 'cec068525')
+USERNAME = os.environ.get('LAB_USERNAME', 'dev')
+PASSWORD = os.environ.get('LAB_PASSWORD', 'cec068525')
 LABID = os.environ.get('LABID', '254')
 
 DEFAULT_HOST = os.environ.get("HOST","developer.ciena.com/lab/api/")
@@ -69,19 +69,6 @@ def main():
                     default='Postgres')
 
 
-	parser.add_argument('--mysql-host', '-mh',
-                    help='MySQL host to store data')
-	parser.add_argument('--mysql-username', '-mu',
-                    help='MySQL username')
-	parser.add_argument('--mysql-password', '-mp',
-                    help='MySQL Password')
-	parser.add_argument('--mysql-db', '-db',
-                    help='MySQL DB')
-	parser.add_argument('--mysql-port', '-p',
-                    help='MySQL Port',
-                    default=3306)
-
-
 	parser.add_argument('--postgres-host', '-ph',
                     help='Postgres host to store data')
 	parser.add_argument('--postgres-username', '-pu',
@@ -92,7 +79,7 @@ def main():
                     help='Postgres DB')
 	parser.add_argument('--postgres-port',
                     help='Postgres Port',
-                    default=3306)
+                    default=5432)
 
 
 	parser.add_argument('--params',
@@ -105,8 +92,8 @@ def main():
 	args = parser.parse_args()
 
 	host = get_environment_data("HOST", args.lab_host, DEFAULT_HOST)
-	username = get_environment_data("USERNAME", args.lab_username, default="dev")
-	password = get_environment_data("PASSWORD", args.lab_password)
+	username = get_environment_data("LAB_USERNAME", args.lab_username, default="dev")
+	password = get_environment_data("LAB_PASSWORD", args.lab_password)
 	lab_id = get_environment_data("LABID", args.lab_id, default=254)
 
 	host = "%s/%s"%(host, lab_id)
@@ -119,26 +106,8 @@ def main():
 	data = get_data(host, get_path(args.data_type, params=args.params), token,
 		key=get_data_key(args.data_type))
 
-	if args.dest_db_type.lower() == 'mysql':
-		import mysqlhelper
-		# 3. convert json to flat csv
-		data_file = mysqlhelper.write_data_to_file(data, args.data_type)
 
-		mysql_host = get_environment_data("MYSQL_HOST", args.mysql_host, default='mcp_db')
-		mysql_username = get_environment_data("MYSQL_USERNAME", args.mysql_username, default="limpid")
-		mysql_password = get_environment_data("MYSQL_PASSWORD", args.mysql_password)
-		mysql_db = get_environment_data("MYSQL_DB", args.mysql_db, default=MYSQL_DB)
-		mysql_port = get_environment_data("MYSQL_PORT", args.mysql_port, default=3306)
-
-		# 4. Recreate table in database
-		if args.recreate_table:
-			mysqlhelper.recreate_table(args.data_type, mysql_host, mysql_username,
-				mysql_password, mysql_db, mysql_port)
-
-		mysqlhelper.load_data_in_db(args.data_type, data_file, mysql_host,
-			mysql_username, mysql_password, mysql_db, mysql_port)
-
-	elif args.dest_db_type.lower() == 'postgres':
+	if args.dest_db_type.lower() == 'postgres':
 		import postgreshelper
 		# 3. convert json to jsonl
 		data_file = postgreshelper.write_data_to_file(data, args.data_type)

@@ -28,7 +28,7 @@ def get_create_table_stmt(data_type):
 def recreate_table(data_type, host, username, password, db, port=5432):
 	"""Execute drop and create table ddl
 	"""
-	db = psycopg2.connect("dbname=%s user=%s host=%s password=%s"%(db, username, host, password))
+	db = psycopg2.connect("dbname=%s user=%s host=%s password=%s port=%s"%(db, username, host, password, port))
 	cursor = db.cursor()
 	try:
 		drop_stmt = get_drop_table_stmt(data_type)
@@ -41,10 +41,11 @@ def recreate_table(data_type, host, username, password, db, port=5432):
 		db.commit()
 		db.close()
 
-def load_data_in_db(data_type, data_file, host, username, password, db, port=3306, ignore_top_lines=0):
+def load_data_in_db(data_type, data_file, host, username, password, 
+			db, port=5432, ignore_top_lines=0):
 	"""
 	"""
-	db = psycopg2.connect("dbname=%s user=%s host=%s password=%s"%(db, username, host, password))
+	db = psycopg2.connect("dbname=%s user=%s host=%s password=%s port=%s"%(db, username, host, password, port))
 	cursor = db.cursor()
 	try:
 		with open(data_file) as f:
